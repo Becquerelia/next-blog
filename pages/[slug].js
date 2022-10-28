@@ -1,6 +1,6 @@
 import { getFileBySlug, getFiles } from "../library/mdx";
 import { MDXRemote } from "next-mdx-remote";
-
+import MDXComponents from "../components/MDXComponents";
 
 function Post({ source, frontmatter }) {
     console.log('lalala', source);
@@ -8,7 +8,7 @@ function Post({ source, frontmatter }) {
   return (
     <div>
       <h1>An awesome post</h1>
-      <MDXRemote {...source} />;
+      <MDXRemote {...source} components={MDXComponents} />;
     </div>
   )
 };
