@@ -1,8 +1,10 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Head from 'next/head';
+import Image from 'next/image';
+import styles from '../styles/Home.module.css';
+import Link from 'next/link';
+import { getAllFilesMetadata } from '../library/mdx';
 
-export default function Home() {
+export default function Home({ posts }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -16,16 +18,15 @@ export default function Home() {
           My first blog JAMStack
         </h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+        {posts.map(post => (
+          <Link href={`/${post.slug}`} className={styles.card} key={post.title}>
+            <h2>{post.title}</h2>
+            <p>{post.date}</p>
+            <h5>{post.slug}</h5>
+          </Link>
+        ))}
+          
         </div>
       </main>
 
@@ -43,4 +44,14 @@ export default function Home() {
       </footer>
     </div>
   )
+}
+
+export async function getStaticProps(){
+  const posts = await getAllFilesMetadata();
+  console.log(posts);
+  return {
+    props: {
+      posts
+    }
+  }
 }
